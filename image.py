@@ -29,7 +29,7 @@ cv2.imshow('Imagen Original - Brillo Reducido', np.hstack([original, brillo]))
 cv2.waitKey(0)
 
 # aplicacion del filtro GaussianBlur
-gauss = cv2.GaussianBlur(brillo, (5, 5), 0)
+gauss = cv2.GaussianBlur(brillo, (31, 31), 0)
 
 # conversion de la imagen a HSV para una mejor deteccion con respecto al fondo
 hsv = cv2.cvtColor(gauss, cv2.COLOR_BGR2HSV)
