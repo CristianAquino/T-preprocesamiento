@@ -7,7 +7,7 @@
     <title>Document</title>
   </head>
   <body>
-    <video id="video" autoplay style="width: 1px"></video>
+    <video id="video" playsinline autoplay style="width: 1px"></video>
     <canvas
       id="canvas"
       width="400"
@@ -21,6 +21,8 @@
       const canvas = document.getElementById("canvas");
       const otrocanvas = document.getElementById("otrocanvas");
       const ctx = canvas.getContext("2d");
+      var currentStream = null;
+      var facingMode = "user";
       window.onload = function () {
         mostrarCamara();
       };
@@ -40,6 +42,7 @@
               currentStream = stream;
               video.srcObject = currentStream;
               procesarCamara();
+              predecir();
             })
             .catch(function (err) {
               alert("No se pudo utilizar la camara :(");
@@ -55,9 +58,7 @@
         setTimeout(procesarCamara, 20);
       }
       function predecir() {
-        if (modelo != null) {
-          resample_single(canvas, 100, 100, otrocanvas);
-        }
+        resample_single(canvas, 100, 100, otrocanvas);
         setTimeout(predecir, 150);
       }
       /**
