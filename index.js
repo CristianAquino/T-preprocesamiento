@@ -5,9 +5,18 @@ const otrocanvas = document.getElementById("otrocanvas");
 const ctx = canvas.getContext("2d");
 var currentStream = null;
 var facingMode = "user";
+var modelo = null;
+
+(async () => {
+  console.log("Cargando modelo...");
+  modelo = await tf.loadLayersModel("model.json");
+  console.log("Modelo cargado");
+})();
+
 window.onload = function () {
   mostrarCamara();
 };
+
 function mostrarCamara() {
   var opciones = {
     audio: false,
@@ -35,12 +44,42 @@ function mostrarCamara() {
     alert("No existe la funcion getUserMedia");
   }
 }
+
 function procesarCamara() {
   ctx.drawImage(video, 0, 0, tamano, tamano, 0, 0, tamano, tamano);
   setTimeout(procesarCamara, 20);
 }
+
 function predecir() {
-  resample_single(canvas, 100, 100, otrocanvas);
+  if (modelo != null) {
+    resample_single(canvas, 100, 100, otrocanvas);
+    var ctx2 = otrocanvas.getContext("2d");
+    var imgData = ctx2.getImageData(0, 0, 100, 100);
+
+    var arr = [];
+    var arr100 = [];
+
+    for (var p = 0; p < imgData.data.length; p += 4) {
+      var rojo = imgData.data[p] / 255;
+      var verde = imgData.data[p + 1] / 255;
+      var azul = imgData.data[p + 2] / 255;
+
+      arr100.push([rojo, verde, azul]);
+      if (arr100.length == 100) {
+        arr.push(arr100);
+        arr100 = [];
+      }
+    }
+    arr = [arr];
+    var tensor = tf.tensor4d(arr);
+    var resultado = modelo.predict(tensor).dataSync();
+    if (resultado <= 0.5) {
+      respuesta = "H";
+    } else {
+      respuesta = "NH";
+    }
+    console.log("Prediccion: " + resultado);
+  }
   setTimeout(predecir, 150);
 }
 /**
