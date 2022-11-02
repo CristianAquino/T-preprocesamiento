@@ -74,11 +74,15 @@ function predecir() {
     var tensor = tf.tensor4d(arr);
     var resultado = modelo.predict(tensor).dataSync();
     if (resultado <= 0.5) {
-      respuesta = "H";
+      respuesta = "Saludable";
+      procentaje = 1 - resultado;
     } else {
-      respuesta = "NH";
+      respuesta = "No Saludable";
+      procentaje = resultado;
     }
-    console.log("Prediccion: " + resultado);
+    document.getElementById("tipo").innerHTML = respuesta;
+    document.getElementById("porcentaje").innerHTML = procentaje;
+    console.log("Resultado: " + respuesta + "Prediccion: " + procentaje * 100);
   }
   setTimeout(predecir, 150);
 }
