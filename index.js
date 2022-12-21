@@ -75,13 +75,18 @@ function predecir() {
     var resultado = modelo.predict(tensor).dataSync();
     if (resultado <= 0.5) {
       respuesta = "Saludable";
+      categoria = "Extra";
       procentaje = 1 - resultado;
+      redondeo = (parseFloat(procentaje) * 100).toFixed(3);
     } else {
       respuesta = "No Saludable";
       procentaje = resultado;
+      categoria = "categoria I";
+      redondeo = (parseFloat(procentaje) * 100).toFixed(3);
     }
     document.getElementById("tipo").innerHTML = respuesta;
-    document.getElementById("porcentaje").innerHTML = procentaje;
+    document.getElementById("porcentaje").innerHTML = redondeo;
+    document.getElementById("categoria").innerHTML = categoria;
     console.log("Resultado: " + respuesta + "Prediccion: " + procentaje * 100);
   }
   setTimeout(predecir, 150);

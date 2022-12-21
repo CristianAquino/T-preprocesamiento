@@ -8,7 +8,10 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Sistema de clasificacion de Limones</h1>
+    <h1>
+      Sistema de visión artificial y CNN para optimizar el proceso de selección
+      de limones
+    </h1>
     <main>
       <div class="streaming">
         <video id="video" playsinline autoplay style="width: 1px"></video>
@@ -28,12 +31,10 @@
       <div class="result">
         <p>
           Tipo:
-          <span
-            style="font-size: 22px; color: black; font-weight: bold"
-            id="tipo"
-          ></span>
+          <span id="tipo"></span>
         </p>
-        <p>porcentaje: <span id="porcentaje"></span></p>
+        <p>Porcentaje: <span id="porcentaje"></span></p>
+        <p>Categoria: <span id="categoria"></span></p>
       </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
